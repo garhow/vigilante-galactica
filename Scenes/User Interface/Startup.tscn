@@ -1,0 +1,81 @@
+[gd_scene load_steps=7 format=3 uid="uid://criv8y8ja4746"]
+
+[ext_resource type="Script" path="res://Scenes/User Interface/Startup.gd" id="1_nkk5a"]
+[ext_resource type="Texture2D" uid="uid://dl8n56o6wfet" path="res://Sprites/UI/Godot.png" id="2_l3rgv"]
+[ext_resource type="AudioStream" uid="uid://couiyxjx1sf16" path="res://Audio/Sound Effects/Startup.wav" id="3_sqmo8"]
+
+[sub_resource type="Animation" id="Animation_dva4f"]
+resource_name = "Fall"
+length = 2.0
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Attribution:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0.8, 0.9, 1),
+"transitions": PackedFloat32Array(3, 2, 1),
+"update": 0,
+"values": [Vector2(30, -116), Vector2(30, 22), Vector2(30, 14)]
+}
+
+[sub_resource type="Animation" id="Animation_aa2g1"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Attribution:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(30, 13.9999)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_magv2"]
+_data = {
+"Fall": SubResource("Animation_dva4f"),
+"RESET": SubResource("Animation_aa2g1")
+}
+
+[node name="Startup Animation" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_nkk5a")
+
+[node name="Attribution" type="TextureRect" parent="."]
+texture_filter = 1
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -50.0
+offset_top = -188.0
+offset_right = 50.0
+offset_bottom = -71.9999
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("2_l3rgv")
+
+[node name="Startup Sound" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("3_sqmo8")
+volume_db = -12.0
+autoplay = true
+
+[node name="Animation" type="AnimationPlayer" parent="."]
+autoplay = "Fall"
+reset_on_save = false
+libraries = {
+"": SubResource("AnimationLibrary_magv2")
+}
+
+[connection signal="animation_finished" from="Animation" to="." method="_load_title_screen"]

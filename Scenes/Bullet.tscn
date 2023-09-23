@@ -1,0 +1,32 @@
+[gd_scene load_steps=6 format=3 uid="uid://dwxqvmb52clm4"]
+
+[ext_resource type="Script" path="res://Scenes/Projectile.gd" id="1_c6566"]
+[ext_resource type="Texture2D" uid="uid://ij11euj334fj" path="res://Sprites/Player/Bullet.png" id="2_k6soj"]
+[ext_resource type="AudioStream" uid="uid://cwia2u0iugytw" path="res://Audio/Sound Effects/Fire.wav" id="3_o3xwm"]
+[ext_resource type="AudioStream" uid="uid://bxqcppp1oopd0" path="res://Audio/Sound Effects/Hit.wav" id="4_cq23e"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_usvh5"]
+size = Vector2(12, 12)
+
+[node name="Bullet" type="Area2D" node_paths=PackedStringArray("fire_sound", "hit_sound")]
+z_index = 5
+collision_layer = 8
+collision_mask = 5
+script = ExtResource("1_c6566")
+fire_sound = NodePath("Fire")
+hit_sound = NodePath("Hit")
+
+[node name="Sprite" type="Sprite2D" parent="."]
+texture_filter = 1
+texture = ExtResource("2_k6soj")
+
+[node name="Collision" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_usvh5")
+
+[node name="Fire" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("3_o3xwm")
+bus = &"Sound Effects"
+
+[node name="Hit" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("4_cq23e")
+bus = &"Sound Effects"

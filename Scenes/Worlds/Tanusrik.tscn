@@ -1,0 +1,59 @@
+[gd_scene load_steps=9 format=3 uid="uid://bpjnusj7bxbj5"]
+
+[ext_resource type="PackedScene" uid="uid://bl1orsjqxur13" path="res://Scenes/Player/Alien/Player.tscn" id="1_dkr6r"]
+[ext_resource type="Texture2D" uid="uid://cywqxthlgpkf4" path="res://Sprites/Planets/Tanusrik/Cloud.png" id="4_4booa"]
+[ext_resource type="PackedScene" uid="uid://c5wnpow8i04dd" path="res://Scenes/Enemies/Grunt/Grunt.tscn" id="4_pqcv8"]
+[ext_resource type="TileSet" uid="uid://oitfl17c8ohe" path="res://Scenes/Worlds/Tanusrik/Tile Set.tres" id="8_2buix"]
+[ext_resource type="AudioStream" uid="uid://m3ae6ht1jodf" path="res://Audio/Music/Boss.wav" id="11_t3vdk"]
+[ext_resource type="Script" path="res://Scenes/Flag.gd" id="12_7r1nj"]
+[ext_resource type="Texture2D" uid="uid://ch4w8gj3vq031" path="res://Sprites/Flag.png" id="12_tyo7e"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_557mt"]
+size = Vector2(32, 64)
+
+[node name="Tanusrik" type="Node2D"]
+
+[node name="Player" parent="." instance=ExtResource("1_dkr6r")]
+
+[node name="Parallax Background" type="ParallaxBackground" parent="."]
+
+[node name="Clouds" type="ParallaxLayer" parent="Parallax Background"]
+motion_scale = Vector2(0.5, 0.2)
+motion_mirroring = Vector2(160, 0)
+
+[node name="Cloud" type="Sprite2D" parent="Parallax Background/Clouds"]
+texture_filter = 1
+texture = ExtResource("4_4booa")
+centered = false
+offset = Vector2(0, 30)
+
+[node name="Modulate" type="CanvasModulate" parent="Parallax Background" groups=["Modulate"]]
+
+[node name="TileMap" type="TileMap" parent="."]
+texture_filter = 1
+tile_set = ExtResource("8_2buix")
+format = 2
+layer_0/tile_data = PackedInt32Array(131071, 0, 0, 196607, 0, 0, 131072, 0, 0, 65536, 0, 0, 65537, 0, 0, 131073, 0, 0, 131074, 0, 0, 65538, 0, 0, 65539, 0, 0, 131075, 0, 0, 131076, 0, 0, 65540, 0, 0, 65541, 0, 0, 131077, 0, 0, 196606, 0, 0, 196605, 0, 0, 196604, 0, 0, 196602, 0, 0, 196600, 0, 0, 131064, 0, 0, 131066, 0, 0, 131068, 0, 0, 131069, 0, 0, 131070, 0, 0, 65542, 0, 0, 65543, 0, 0, 131079, 0, 0, 131078, 0, 0, 5, 0, 0, 6, 0, 0, 7, 0, 0, -65529, 0, 0, -131065, 0, 0, -65530, 0, 0, -196600, 0, 0, -131064, 0, 0, -65528, 0, 0, 131080, 0, 0, 65544, 0, 0, 8, 0, 0, 9, 0, 0, 65545, 0, 0, -65527, 0, 0, -131063, 0, 0, -196599, 0, 0, 131081, 0, 0, -262135, 0, 0, 131063, 0, 0, 131062, 0, 0, 131061, 0, 0, 131060, 0, 0, 131059, 0, 0, 196595, 0, 0, 196596, 0, 0, 196597, 0, 0, 196598, 0, 0, 196599, 0, 0, 196594, 0, 0, 131058, 0, 0, 131057, 0, 0, 196593, 0, 0, 65521, 65536, 0, -15, 65536, 0, -65551, 65536, 0, -131087, 65536, 0, -131086, 65536, 0, -131085, 65536, 0, -65549, 65536, 0, -65548, 65536, 0, -65547, 65536, 0, -131083, 65536, 0, -131084, 65536, 0, -65550, 65536, 0, 65522, 65536, 0, 65523, 65536, 0, 65524, 65536, 0, 65525, 65536, 0, -11, 65536, 0, -12, 65536, 0, -13, 65536, 0, -14, 65536, 0, 131056, 0, 0, 196592, 0, 0, 131055, 0, 0, 131054, 0, 0, 131053, 0, 0, 131052, 0, 0, 196588, 0, 0, 196589, 0, 0, 196590, 0, 0, 196591, 0, 0, 65517, 65536, 0, -19, 65536, 0, -65555, 65536, 0, -131091, 65536, 0, -131090, 65536, 0, -131089, 65536, 0, -131088, 65536, 0, -65552, 65536, 0, -16, 65536, 0, 65520, 65536, 0, 65519, 65536, 0, 65518, 65536, 0, -18, 65536, 0, -65554, 65536, 0, -65553, 65536, 0, -17, 65536, 0)
+
+[node name="Grunt" parent="." instance=ExtResource("4_pqcv8")]
+
+[node name="Music" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("11_t3vdk")
+autoplay = true
+bus = &"Music"
+
+[node name="Flag" type="Area2D" parent="."]
+position = Vector2(152, -64)
+collision_mask = 2
+script = ExtResource("12_7r1nj")
+
+[node name="Sprite2D" type="Sprite2D" parent="Flag"]
+texture_filter = 1
+position = Vector2(11, -32)
+texture = ExtResource("12_tyo7e")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Flag"]
+position = Vector2(11, -32)
+shape = SubResource("RectangleShape2D_557mt")
+
+[connection signal="body_entered" from="Flag" to="Flag" method="_on_body_entered"]

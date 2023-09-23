@@ -1,0 +1,178 @@
+[gd_scene load_steps=14 format=3 uid="uid://b2c76kjhd20ap"]
+
+[ext_resource type="Script" path="res://Scenes/Player/Spaceship/Spaceship.gd" id="1_3snrh"]
+[ext_resource type="Texture2D" uid="uid://g3x7mahnrvou" path="res://Sprites/Player/Spaceship.png" id="2_6rrx1"]
+[ext_resource type="Script" path="res://Scenes/Player/Spaceship/Sprite.gd" id="3_2026t"]
+[ext_resource type="Script" path="res://Scenes/Player/Spaceship/User Interface.gd" id="4_ycu6v"]
+[ext_resource type="FontFile" uid="uid://dk0usu2svncuf" path="res://Fonts/Minimal3x5.ttf" id="5_xasvn"]
+[ext_resource type="FontFile" uid="uid://cew4awridwsxb" path="res://Fonts/Minimal5x7.ttf" id="6_e3wa3"]
+[ext_resource type="AudioStream" uid="uid://damuxebdkkvaq" path="res://Audio/Sound Effects/Spaceship1.wav" id="7_v76op"]
+[ext_resource type="AudioStream" uid="uid://cjnqcfufnvtuq" path="res://Audio/Sound Effects/Spaceship2.wav" id="8_75n2r"]
+[ext_resource type="Script" path="res://Scenes/Player/Spaceship/Arrow.gd" id="9_if684"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_aywfb"]
+size = Vector2(32, 14)
+
+[sub_resource type="LabelSettings" id="LabelSettings_wlvh5"]
+line_spacing = 2.0
+font = ExtResource("5_xasvn")
+font_size = 8
+
+[sub_resource type="LabelSettings" id="LabelSettings_thh7k"]
+line_spacing = 0.0
+font = ExtResource("6_e3wa3")
+
+[sub_resource type="LabelSettings" id="LabelSettings_l0tqb"]
+line_spacing = 0.0
+font = ExtResource("5_xasvn")
+
+[node name="Spaceship" type="CharacterBody2D" node_paths=PackedStringArray("enter_sound", "exit_sound")]
+z_index = 1
+collision_layer = 2
+motion_mode = 1
+script = ExtResource("1_3snrh")
+enter_sound = NodePath("Sound Effects/Enter")
+exit_sound = NodePath("Sound Effects/Exit")
+
+[node name="Sprite" type="Sprite2D" parent="."]
+texture_filter = 1
+texture = ExtResource("2_6rrx1")
+script = ExtResource("3_2026t")
+
+[node name="Collision" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_aywfb")
+
+[node name="Camera" type="Camera2D" parent="."]
+offset = Vector2(0, 16)
+
+[node name="HUD" type="CanvasLayer" parent="."]
+layer = 2
+
+[node name="User Interface" type="Control" parent="HUD" node_paths=PackedStringArray("life_count", "mission_indicator")]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+script = ExtResource("4_ycu6v")
+life_count = NodePath("White/Black/Margin/Lives/Indicator")
+mission_indicator = NodePath("White/Black/Margin/Mission/Indicator")
+
+[node name="White" type="ColorRect" parent="HUD/User Interface"]
+custom_minimum_size = Vector2(0, 21)
+layout_mode = 1
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 0
+
+[node name="Black" type="ColorRect" parent="HUD/User Interface/White"]
+texture_filter = 1
+custom_minimum_size = Vector2(0, 20)
+layout_mode = 1
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -20.0
+grow_horizontal = 2
+grow_vertical = 0
+color = Color(0, 0, 0, 1)
+
+[node name="Margin" type="MarginContainer" parent="HUD/User Interface/White/Black"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 4
+theme_override_constants/margin_top = 2
+theme_override_constants/margin_right = 4
+theme_override_constants/margin_bottom = 2
+
+[node name="Mission" type="VBoxContainer" parent="HUD/User Interface/White/Black/Margin"]
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 4
+theme_override_constants/separation = 0
+
+[node name="Label" type="Label" parent="HUD/User Interface/White/Black/Margin/Mission"]
+texture_filter = 1
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 0
+text = "MISSION"
+label_settings = SubResource("LabelSettings_wlvh5")
+horizontal_alignment = 2
+vertical_alignment = 2
+
+[node name="Indicator" type="Label" parent="HUD/User Interface/White/Black/Margin/Mission"]
+texture_filter = 1
+layout_mode = 2
+size_flags_horizontal = 0
+text = "Current Mission"
+label_settings = SubResource("LabelSettings_thh7k")
+vertical_alignment = 2
+
+[node name="Lives" type="VBoxContainer" parent="HUD/User Interface/White/Black/Margin"]
+layout_mode = 2
+size_flags_horizontal = 8
+size_flags_vertical = 4
+theme_override_constants/separation = 0
+
+[node name="Label" type="Label" parent="HUD/User Interface/White/Black/Margin/Lives"]
+texture_filter = 1
+layout_mode = 2
+size_flags_horizontal = 8
+size_flags_vertical = 0
+text = "LIVES"
+label_settings = SubResource("LabelSettings_wlvh5")
+horizontal_alignment = 2
+vertical_alignment = 2
+
+[node name="Indicator" type="Label" parent="HUD/User Interface/White/Black/Margin/Lives"]
+texture_filter = 1
+layout_mode = 2
+size_flags_horizontal = 8
+text = "*5"
+label_settings = SubResource("LabelSettings_l0tqb")
+vertical_alignment = 2
+
+[node name="CanvasModulate" type="CanvasModulate" parent="HUD" groups=["Modulate"]]
+
+[node name="Sound Effects" type="Node" parent="."]
+
+[node name="Enter" type="AudioStreamPlayer2D" parent="Sound Effects"]
+stream = ExtResource("7_v76op")
+
+[node name="Exit" type="AudioStreamPlayer2D" parent="Sound Effects"]
+stream = ExtResource("8_75n2r")
+
+[node name="Arrow Rotation" type="Node2D" parent="." node_paths=PackedStringArray("sprite")]
+script = ExtResource("9_if684")
+sprite = NodePath("../Sprite")
+
+[node name="Arrow Border" type="Line2D" parent="Arrow Rotation"]
+position = Vector2(8, 0)
+rotation = 1.5708
+points = PackedVector2Array(0, -15, 0, -32, -6, -26, 0, -32, 6, -26)
+width = 4.0
+default_color = Color(0, 0, 0, 1)
+joint_mode = 2
+begin_cap_mode = 2
+end_cap_mode = 2
+
+[node name="Arrow" type="Line2D" parent="Arrow Rotation"]
+position = Vector2(8, 0)
+rotation = 1.5708
+points = PackedVector2Array(0, -15, 0, -32, -6, -26, 0, -32, 6, -26)
+width = 2.0
+joint_mode = 2
+begin_cap_mode = 2
+end_cap_mode = 2

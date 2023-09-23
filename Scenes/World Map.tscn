@@ -1,0 +1,118 @@
+[gd_scene load_steps=13 format=3 uid="uid://dbha7p0g7k2hh"]
+
+[ext_resource type="PackedScene" uid="uid://b2c76kjhd20ap" path="res://Scenes/Player/Spaceship/Spaceship.tscn" id="1_sf0l0"]
+[ext_resource type="Texture2D" uid="uid://bdh6qkyfqapen" path="res://Sprites/World Map/Stars.png" id="2_jleks"]
+[ext_resource type="Script" path="res://Scripts/Planet.gd" id="3_8e12p"]
+[ext_resource type="PackedScene" uid="uid://bpjnusj7bxbj5" path="res://Scenes/Worlds/Tanusrik.tscn" id="4_ewa8f"]
+[ext_resource type="FontFile" uid="uid://dk0usu2svncuf" path="res://Fonts/Minimal3x5.ttf" id="6_3h0oj"]
+[ext_resource type="AudioStream" uid="uid://crp2uygn8upx6" path="res://Audio/Music/World Map.wav" id="7_tatod"]
+[ext_resource type="Texture2D" uid="uid://cbn1sybc04xd1" path="res://Sprites/Planets/Tanusrik.png" id="9_c5drr"]
+[ext_resource type="Texture2D" uid="uid://bq173cfcaa5q6" path="res://Sprites/Planets/Deglazen.png" id="10_jad1i"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_e6sht"]
+radius = 80.0
+
+[sub_resource type="LabelSettings" id="LabelSettings_wfj3k"]
+font = ExtResource("6_3h0oj")
+outline_size = 4
+outline_color = Color(0, 0, 0, 1)
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_qy45b"]
+radius = 64.0
+
+[sub_resource type="LabelSettings" id="LabelSettings_5x3xe"]
+font = ExtResource("6_3h0oj")
+font_size = 8
+outline_size = 4
+outline_color = Color(0, 0, 0, 1)
+
+[node name="World Map" type="Node2D"]
+
+[node name="Spaceship" parent="." instance=ExtResource("1_sf0l0")]
+
+[node name="ParallaxBackground" type="ParallaxBackground" parent="."]
+
+[node name="Black" type="ColorRect" parent="ParallaxBackground"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 1)
+
+[node name="ParallaxLayer" type="ParallaxLayer" parent="ParallaxBackground"]
+position = Vector2(80, 77)
+motion_scale = Vector2(0.5, 0.5)
+motion_mirroring = Vector2(320, 288)
+
+[node name="Stars" type="Sprite2D" parent="ParallaxBackground/ParallaxLayer"]
+texture_filter = 1
+texture = ExtResource("2_jleks")
+
+[node name="CanvasModulate" type="CanvasModulate" parent="ParallaxBackground" groups=["Modulate"]]
+
+[node name="Tanusrik" type="Area2D" parent="."]
+position = Vector2(-250, -100)
+collision_mask = 2
+script = ExtResource("3_8e12p")
+planet_scene = ExtResource("4_ewa8f")
+
+[node name="Sprite" type="Sprite2D" parent="Tanusrik"]
+texture_filter = 1
+texture = ExtResource("9_c5drr")
+
+[node name="Collision" type="CollisionShape2D" parent="Tanusrik"]
+shape = SubResource("CircleShape2D_e6sht")
+
+[node name="Label" type="Label" parent="Tanusrik"]
+texture_filter = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -33.0
+offset_top = -7.5
+offset_right = 33.0
+offset_bottom = 7.5
+grow_horizontal = 2
+grow_vertical = 2
+text = "TANUSRIK"
+label_settings = SubResource("LabelSettings_wfj3k")
+horizontal_alignment = 1
+vertical_alignment = 2
+
+[node name="Deglazen" type="Area2D" parent="."]
+position = Vector2(150, 100)
+collision_mask = 2
+script = ExtResource("3_8e12p")
+
+[node name="Sprite" type="Sprite2D" parent="Deglazen"]
+texture_filter = 1
+texture = ExtResource("10_jad1i")
+
+[node name="Collision" type="CollisionShape2D" parent="Deglazen"]
+shape = SubResource("CircleShape2D_qy45b")
+
+[node name="Deglazen" type="Label" parent="Deglazen"]
+texture_filter = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -33.0
+offset_top = -7.5
+offset_right = 33.0
+offset_bottom = 7.5
+grow_horizontal = 2
+grow_vertical = 2
+text = "Deglazen"
+label_settings = SubResource("LabelSettings_5x3xe")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Music" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("7_tatod")
+autoplay = true
+bus = &"Music"

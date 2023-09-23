@@ -1,0 +1,19 @@
+[gd_scene load_steps=3 format=3 uid="uid://c0d8xn3slx06n"]
+
+[ext_resource type="Texture2D" uid="uid://bjvi3lam8gmog" path="res://Sprites/UI/Troll.png" id="1_5rhta"]
+[ext_resource type="AudioStream" uid="uid://ct3iwuvmmx5kh" path="res://Audio/Music/Troll.wav" id="3_hfjd2"]
+
+[node name="Troll Face" type="TextureRect"]
+z_index = 420
+texture_filter = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("1_5rhta")
+
+[node name="Music" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("3_hfjd2")
+autoplay = true
+bus = &"Music"

@@ -1,0 +1,250 @@
+[gd_scene load_steps=20 format=3 uid="uid://bl1orsjqxur13"]
+
+[ext_resource type="Script" path="res://Scenes/Player/Alien/Player.gd" id="1_m4eqy"]
+[ext_resource type="PackedScene" uid="uid://dwxqvmb52clm4" path="res://Scenes/Bullet.tscn" id="2_jk124"]
+[ext_resource type="Texture2D" uid="uid://bfoeuaikepqoo" path="res://Sprites/Player/Player.png" id="3_v4fyn"]
+[ext_resource type="AudioStream" uid="uid://bjrqkqib1w2b3" path="res://Audio/Sound Effects/Jump.wav" id="4_ktbdw"]
+[ext_resource type="AudioStream" uid="uid://cwia2u0iugytw" path="res://Audio/Sound Effects/Fire.wav" id="5_gj6af"]
+[ext_resource type="AudioStream" uid="uid://ch883dttfuq4b" path="res://Audio/Sound Effects/Victory.wav" id="6_mq2ip"]
+[ext_resource type="Script" path="res://Scenes/Player/Alien/Player User Interface.gd" id="7_hm462"]
+[ext_resource type="FontFile" uid="uid://dk0usu2svncuf" path="res://Fonts/Minimal3x5.ttf" id="8_aigeq"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_3kb6y"]
+atlas = ExtResource("3_v4fyn")
+region = Rect2(0, 0, 11, 10)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_v5sw7"]
+atlas = ExtResource("3_v4fyn")
+region = Rect2(22, 0, 11, 10)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_disfa"]
+atlas = ExtResource("3_v4fyn")
+region = Rect2(11, 0, 11, 10)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_3yula"]
+atlas = ExtResource("3_v4fyn")
+region = Rect2(0, 0, 11, 10)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_jgj4v"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_3kb6y")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_v5sw7")
+}],
+"loop": true,
+"name": &"shoot",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_disfa")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_3yula")
+}],
+"loop": true,
+"name": &"walk",
+"speed": 10.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_gjive"]
+size = Vector2(11, 10)
+
+[sub_resource type="LabelSettings" id="LabelSettings_jw3gm"]
+line_spacing = 0.0
+font = ExtResource("8_aigeq")
+font_size = 8
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_5i8cy"]
+bg_color = Color(0.392157, 0.392157, 0.427451, 1)
+corner_radius_top_left = 2
+corner_radius_top_right = 2
+corner_radius_bottom_right = 2
+corner_radius_bottom_left = 2
+anti_aliasing = false
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_frtkq"]
+bg_color = Color(1, 1, 1, 1)
+corner_radius_top_left = 2
+corner_radius_top_right = 2
+corner_radius_bottom_right = 2
+corner_radius_bottom_left = 2
+anti_aliasing = false
+
+[sub_resource type="LabelSettings" id="LabelSettings_rcsx7"]
+line_spacing = 2.0
+font = ExtResource("8_aigeq")
+font_size = 8
+
+[sub_resource type="LabelSettings" id="LabelSettings_subo4"]
+line_spacing = 0.0
+font = ExtResource("8_aigeq")
+
+[node name="Player" type="CharacterBody2D" node_paths=PackedStringArray("sprite", "jump_sound", "victory_sound") groups=["Player"]]
+z_index = 2
+collision_layer = 2
+script = ExtResource("1_m4eqy")
+projectile = ExtResource("2_jk124")
+sprite = NodePath("Sprite")
+jump_sound = NodePath("Jump")
+victory_sound = NodePath("Victory")
+
+[node name="Sprite" type="AnimatedSprite2D" parent="."]
+texture_filter = 1
+sprite_frames = SubResource("SpriteFrames_jgj4v")
+autoplay = "default"
+frame_progress = 0.216733
+
+[node name="Collision" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_gjive")
+
+[node name="Camera" type="Camera2D" parent="."]
+position_smoothing_speed = 32.0
+drag_vertical_enabled = true
+
+[node name="Jump" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("4_ktbdw")
+bus = &"Sound Effects"
+
+[node name="Spit" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("5_gj6af")
+bus = &"Sound Effects"
+
+[node name="Victory" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("6_mq2ip")
+bus = &"Sound Effects"
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="User Interface" type="Control" parent="CanvasLayer" node_paths=PackedStringArray("life_count", "health_bar", "health_indicator", "time_indicator")]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("7_hm462")
+life_count = NodePath("White/Black/Margin/Lives/Indicator")
+health_bar = NodePath("White/Black/Margin/HP/Bar")
+health_indicator = NodePath("White/Black/Margin/HP/Indicator")
+time_indicator = NodePath("White/Black/Margin/Time/Indicator")
+
+[node name="White" type="ColorRect" parent="CanvasLayer/User Interface"]
+custom_minimum_size = Vector2(0, 21)
+layout_mode = 1
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 0
+
+[node name="Black" type="ColorRect" parent="CanvasLayer/User Interface/White"]
+custom_minimum_size = Vector2(0, 20)
+layout_mode = 1
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -20.0
+grow_horizontal = 2
+grow_vertical = 0
+color = Color(0, 0, 0, 1)
+
+[node name="Margin" type="MarginContainer" parent="CanvasLayer/User Interface/White/Black"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 4
+theme_override_constants/margin_top = 2
+theme_override_constants/margin_right = 4
+theme_override_constants/margin_bottom = 2
+
+[node name="HP" type="VBoxContainer" parent="CanvasLayer/User Interface/White/Black/Margin"]
+layout_mode = 2
+size_flags_horizontal = 0
+theme_override_constants/separation = 0
+alignment = 1
+
+[node name="Indicator" type="Label" parent="CanvasLayer/User Interface/White/Black/Margin/HP"]
+texture_filter = 1
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 0
+text = "20 HP"
+label_settings = SubResource("LabelSettings_jw3gm")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Bar" type="ProgressBar" parent="CanvasLayer/User Interface/White/Black/Margin/HP"]
+custom_minimum_size = Vector2(32, 4)
+layout_mode = 2
+theme_override_styles/background = SubResource("StyleBoxFlat_5i8cy")
+theme_override_styles/fill = SubResource("StyleBoxFlat_frtkq")
+max_value = 20.0
+step = 1.0
+value = 10.0
+show_percentage = false
+
+[node name="Lives" type="VBoxContainer" parent="CanvasLayer/User Interface/White/Black/Margin"]
+layout_mode = 2
+size_flags_horizontal = 8
+size_flags_vertical = 4
+theme_override_constants/separation = 0
+
+[node name="Label" type="Label" parent="CanvasLayer/User Interface/White/Black/Margin/Lives"]
+texture_filter = 1
+layout_mode = 2
+size_flags_horizontal = 8
+size_flags_vertical = 0
+text = "LIVES"
+label_settings = SubResource("LabelSettings_rcsx7")
+horizontal_alignment = 2
+vertical_alignment = 2
+
+[node name="Indicator" type="Label" parent="CanvasLayer/User Interface/White/Black/Margin/Lives"]
+texture_filter = 1
+layout_mode = 2
+size_flags_horizontal = 8
+text = "*5"
+label_settings = SubResource("LabelSettings_subo4")
+vertical_alignment = 2
+
+[node name="Time" type="VBoxContainer" parent="CanvasLayer/User Interface/White/Black/Margin"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+theme_override_constants/separation = 0
+alignment = 2
+
+[node name="Label" type="Label" parent="CanvasLayer/User Interface/White/Black/Margin/Time"]
+texture_filter = 1
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 0
+text = "TIME"
+label_settings = SubResource("LabelSettings_rcsx7")
+horizontal_alignment = 1
+vertical_alignment = 2
+
+[node name="Indicator" type="Label" parent="CanvasLayer/User Interface/White/Black/Margin/Time"]
+texture_filter = 1
+layout_mode = 2
+size_flags_horizontal = 4
+text = "00:00"
+label_settings = SubResource("LabelSettings_subo4")
+horizontal_alignment = 1
+vertical_alignment = 2
+
+[node name="CanvasModulate" type="CanvasModulate" parent="CanvasLayer" groups=["Modulate"]]

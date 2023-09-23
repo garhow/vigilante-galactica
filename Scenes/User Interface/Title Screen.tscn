@@ -1,0 +1,69 @@
+[gd_scene load_steps=7 format=3 uid="uid://bvoa84wke0pei"]
+
+[ext_resource type="Script" path="res://Scenes/User Interface/Title Screen.gd" id="1_21876"]
+[ext_resource type="FontFile" uid="uid://cew4awridwsxb" path="res://Fonts/Minimal5x7.ttf" id="1_ypvpa"]
+[ext_resource type="FontFile" uid="uid://dk0usu2svncuf" path="res://Fonts/Minimal3x5.ttf" id="2_sy1xn"]
+[ext_resource type="AudioStream" uid="uid://blgcsh5tg2m6v" path="res://Audio/Sound Effects/MenuSelect.wav" id="4_iq2je"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_t2hes"]
+font = ExtResource("2_sy1xn")
+font_size = 32
+font_color = Color(0, 0, 0, 1)
+shadow_size = 0
+
+[sub_resource type="LabelSettings" id="LabelSettings_8meo2"]
+font = ExtResource("1_ypvpa")
+font_size = 32
+font_color = Color(0, 0, 0, 1)
+
+[node name="Title Screen" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_21876")
+
+[node name="Logo" type="Label" parent="."]
+texture_filter = 1
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -74.0
+offset_top = -42.0
+offset_right = 74.0
+offset_bottom = 12.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "vigilante
+galactica"
+label_settings = SubResource("LabelSettings_t2hes")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Label" type="Label" parent="."]
+texture_filter = 1
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -62.0
+offset_top = 28.0
+offset_right = 62.0
+offset_bottom = 51.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "press start"
+label_settings = SubResource("LabelSettings_8meo2")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Sound" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("4_iq2je")
+bus = &"Sound Effects"
